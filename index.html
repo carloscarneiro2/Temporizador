@@ -13,81 +13,103 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      min-height:100vh;
     }
     header img {
       width:100%;
-      max-height:200px;
+      max-height:180px;
       object-fit:cover;
       display:block;
     }
     h1 {
-      margin:20px 0;
-      font-size:24px;
-      color:#f9fafb;              /* branco */
-      text-shadow: 1px 1px 2px #6b7280; /* detalhes cinza */
+      margin:15px 0;
+      font-size:22px;
+      color:#f9fafb;
+      text-shadow: 1px 1px 2px #6b7280;
     }
     .container {
       background:#0f172a;
-      padding:20px;
+      padding:15px;
       border-radius:8px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.5);
       width:90%;
-      max-width:420px;
-      text-align:left;
+      max-width:700px;
+      margin-bottom:15px;
     }
-    label {
-      display:block;
-      margin-top:12px;
-      font-size:14px;
-      color:#93c5fd;
-    }
-    input {
+    label { display:block; margin-top:8px; }
+    input[type="text"] {
       width:100%;
-      padding:10px;
-      margin-top:5px;
-      border:1px solid #1e3a8a;
+      padding:8px;
+      margin-top:4px;
+      border:1px solid #374151;
       border-radius:4px;
       background:#1e293b;
-      color:#e5e7eb;
-      font-size:16px;
+      color:#fff;
     }
-    .etapas {
-      display:flex;
-      gap:15px;
-      margin:22px 0 32px;
-      flex-wrap:wrap;
-      justify-content:center;
+    .botoes-etapas {
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:10px;
+      margin-top:15px;
     }
-    .etapa {
-      padding:18px 16px;
-      border-radius:10px;
+    .botoes-etapas button {
+      padding:12px;
+      border:none;
+      border-radius:6px;
+      font-size:15px;
       font-weight:bold;
       color:#fff;
-      min-width:140px;
-      text-align:center;
-      opacity:0.55;
-      cursor:not-allowed;
-      transition:0.2s ease;
-      user-select:none;
-    }
-    .etapa.ativa {
-      opacity:1;
       cursor:pointer;
-      border:2px solid #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+      opacity:0.6;
     }
-    /* Cores no padrão solicitado */
-    .azul    { background:#1d4ed8; }  /* Aprender / Ensinar */
-    .verde   { background:#16a34a; }  /* Aplicar / Multiplicar */
-    .vermelho{ background:#b91c1c; }  /* Ser Reconhecido */
-    .amarelo { background:#ca8a04; }  /* Liderar */
+    .botoes-etapas button.ativo { opacity:1; border:2px solid #fff; }
+    .azul { background:#2563eb; }
+    .verde { background:#16a34a; }
+    .vermelho { background:#b91c1c; }
+    .amarelo { background:#ca8a04; }
+    .conteudo-etapa {
+      background:#1e293b;
+      padding:15px;
+      border-radius:8px;
+      margin-top:20px;
+      width:90%;
+      max-width:700px;
+    }
+    ul { list-style:none; padding-left:0; }
+    li { margin-bottom:10px; }
+    input[type="checkbox"] { margin-right:6px; }
+    button.coment {
+      background:#374151;
+      color:#fff;
+      border:none;
+      padding:4px 8px;
+      margin-left:8px;
+      cursor:pointer;
+      border-radius:4px;
+    }
+    .comentario {
+      display:none;
+      width:100%;
+      height:50px;
+      margin-top:5px;
+      background:#0f172a;
+      color:#fff;
+      border:1px solid #374151;
+      border-radius:4px;
+      padding:6px;
+    }
+    .encerrar {
+      margin-top:15px;
+      background:#16a34a;
+      padding:8px 14px;
+      border:none;
+      border-radius:6px;
+      font-size:14px;
+      cursor:pointer;
+      color:#fff;
+    }
   </style>
 </head>
 <body>
   <header>
-    <!-- Usa exatamente o nome de arquivo informado pelo usuário -->
     <img src="d9eae419-6695-4097-a256-b6c9ebc981ce.jpeg" alt="Vidro Cebrace">
   </header>
 
@@ -96,51 +118,92 @@
   <div class="container">
     <label for="re">Digite o RE:</label>
     <input type="text" id="re" placeholder="Ex: 123456">
-
     <label for="nome">Nome do Colaborador:</label>
     <input type="text" id="nome" placeholder="Nome será exibido aqui" readonly>
   </div>
 
-  <div class="etapas">
-    <div class="etapa azul ativa"   onclick="proximaEtapa(this)">Aprender</div>
-    <div class="etapa verde"        >Aplicar</div>
-    <div class="etapa vermelho"     >Ser Reconhecido</div>
-    <div class="etapa amarelo"      >Liderar</div>
-    <div class="etapa azul"         >Ensinar</div>
-    <div class="etapa verde"        >Multiplicar</div>
+  <div class="botoes-etapas">
+    <button id="btn-aprender" class="azul ativo">Aprender</button>
+    <button id="btn-aplicar" class="verde">Aplicar</button>
+    <button id="btn-reconhecido" class="vermelho">Ser Reconhecido</button>
+    <button id="btn-liderar" class="amarelo">Liderar</button>
+    <button id="btn-ensinar" class="azul">Ensinar</button>
+    <button id="btn-multiplicar" class="verde">Multiplicar</button>
+  </div>
+
+  <div class="conteudo-etapa" id="conteudo-etapa">
+    <h3 style="color:#3b82f6;">Etapa 1 - Aprender</h3>
+    <p><strong>Objetivo:</strong> Assimilar fundamentos do Fluxo Vivo.</p>
+    <ul>
+      <li><input type="checkbox"> Participar do treinamento inicial (15 min).
+        <button class="coment" onclick="toggleComentario(this)">Inserir comentário</button>
+        <textarea class="comentario"></textarea>
+      </li>
+      <li><input type="checkbox"> Ler o material de apoio (folheto ou mural).
+        <button class="coment" onclick="toggleComentario(this)">Inserir comentário</button>
+        <textarea class="comentario"></textarea>
+      </li>
+      <li><input type="checkbox"> Observar colega experiente em atividade (On The Job).
+        <button class="coment" onclick="toggleComentario(this)">Inserir comentário</button>
+        <textarea class="comentario"></textarea>
+      </li>
+      <li><input type="checkbox"> Preencher checklist com supervisão (1x).
+        <button class="coment" onclick="toggleComentario(this)">Inserir comentário</button>
+        <textarea class="comentario"></textarea>
+      </li>
+      <li><input type="checkbox"> Explicar um pilar do Fluxo Vivo em poucas palavras.
+        <button class="coment" onclick="toggleComentario(this)">Inserir comentário</button>
+        <textarea class="comentario"></textarea>
+      </li>
+    </ul>
+    <button class="encerrar" onclick="encerrarEtapa('aprender','aplicar')">Encerrar Etapa</button>
   </div>
 
   <script>
-    // Simulação para testes (substituiremos por banco de dados futuramente)
-    const mockData = {
-      "123456": "Carlos Alberto",
-      "654321": "Maria Souza"
-    };
-
+    const mockData = { "123456": "Carlos Alberto", "654321": "Maria Souza" };
     document.getElementById("re").addEventListener("input", function() {
       const re = this.value.trim();
       document.getElementById("nome").value = mockData[re] || "";
     });
 
-    function proximaEtapa(el) {
-      // desativa a etapa atual
-      el.classList.remove("ativa");
-      el.style.cursor = "not-allowed";
-      // ativa a próxima etapa, se houver
-      const next = el.nextElementSibling;
-      if (next) {
-        next.classList.add("ativa");
-        next.style.cursor = "pointer";
-        // delega o clique para continuar o fluxo
-        next.addEventListener("click", handleClickOnce, { once: true });
+    function toggleComentario(botao) {
+      const textarea = botao.nextElementSibling;
+      textarea.style.display = (textarea.style.display === "none" || textarea.style.display === "") ? "block" : "none";
+    }
+
+    function encerrarEtapa(atual, proxima) {
+      const checkboxes = document.querySelectorAll('#conteudo-etapa input[type="checkbox"]');
+      let todosMarcados = true;
+      checkboxes.forEach(cb => { if (!cb.checked) todosMarcados = false; });
+      if (!todosMarcados) {
+        alert("⚠️ Complete todas as tarefas antes de encerrar esta etapa.");
+        return;
+      }
+      document.getElementById("btn-" + atual).classList.remove("ativo");
+      document.getElementById("btn-" + atual).disabled = true;
+      if (proxima) {
+        document.getElementById("btn-" + proxima).classList.add("ativo");
+        carregarEtapa(proxima);
       } else {
-        alert("Todas as etapas concluídas 🎉");
+        alert("🎉 Todas as etapas concluídas!");
       }
     }
 
-    // Garante que somente a etapa ativa responda ao clique
-    function handleClickOnce(e){ proximaEtapa(e.currentTarget); }
-    document.querySelector(".etapa.ativa").addEventListener("click", handleClickOnce, { once: true });
+    function carregarEtapa(etapa) {
+      let conteudo = document.getElementById("conteudo-etapa");
+      if (etapa === "aplicar") {
+        conteudo.innerHTML = `<h3 style="color:#16a34a;">Etapa 2 - Aplicar</h3>
+        <p><strong>Objetivo:</strong> Converter conhecimento em prática disciplinada.</p>
+        <ul>
+          <li><input type="checkbox"> Preencher checklists durante 1 semana.</li>
+          <li><input type="checkbox"> Executar pelo menos 1 sugestão simples de melhoria.</li>
+          <li><input type="checkbox"> Reportar uma não conformidade ao supervisor.</li>
+          <li><input type="checkbox"> Receber feedback do supervisor.</li>
+          <li><input type="checkbox"> Participar de uma rotina de melhoria (ex.: 6S).</li>
+        </ul>
+        <button class="encerrar" onclick="encerrarEtapa('aplicar','reconhecido')">Encerrar Etapa</button>`;
+      }
+    }
   </script>
 </body>
 </html>
