@@ -1,42 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jornada do Colaborador – Turno B (Etapa 1)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jornada do Colaborador</title>
   <style>
-    body, html { margin:0; height:100%; font-family: Arial, sans-serif; }
-    .app {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      height: 100vh;
+    body {
+      font-family: Arial, sans-serif;
+      margin:0; padding:0;
+      background:#0a192f; /* azul escuro */
+      color:#e5e7eb;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      min-height:100vh;
     }
-    .sidebar {
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-      font-weight: bold;
+    header img {
+      width:100%;
+      max-height:200px;
+      object-fit:cover;
     }
-    .board {
-      position: relative;
-      overflow: hidden;
+    h1 {
+      margin:20px 0;
+      font-size:24px;
+      background: linear-gradient(90deg,#1e3a8a,#3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .board img {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover;
+    .container {
+      background:#0f172a;
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.5);
+      width:90%;
+      max-width:400px;
+      text-align:left;
+    }
+    label {
+      display:block;
+      margin-top:12px;
+      font-size:14px;
+      color:#93c5fd;
+    }
+    input {
+      width:100%;
+      padding:10px;
+      margin-top:5px;
+      border:1px solid #1e3a8a;
+      border-radius:4px;
+      background:#1e293b;
+      color:#e5e7eb;
+      font-size:16px;
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div>Inbox</div>
-      <div style="margin-top:20px;">Jornada do Colaborador – Turno B</div>
-    </aside>
-    <main class="board">
-      <img src="d9eae419-6695-4097-a256-b6c9ebc981ce.jpeg" alt="Imagem de fundo">
-    </main>
+  <header>
+    <img src="64FDF432-8762-4DD7-8222-E36F3E46C026.jpeg" alt="Vidro Cebrace">
+  </header>
+
+  <h1>Jornada do Colaborador</h1>
+
+  <div class="container">
+    <label for="re">Digite o RE:</label>
+    <input type="text" id="re" placeholder="Ex: 123456">
+
+    <label for="nome">Nome do Colaborador:</label>
+    <input type="text" id="nome" placeholder="Nome será exibido aqui" readonly>
   </div>
+
+  <script>
+    // Simulação inicial para testes
+    const mockData = {
+      "123456": "Carlos Alberto",
+      "654321": "Maria Souza"
+    };
+
+    document.getElementById("re").addEventListener("input", function() {
+      const re = this.value.trim();
+      const nomeField = document.getElementById("nome");
+      if(mockData[re]) {
+        nomeField.value = mockData[re];
+      } else {
+        nomeField.value = "";
+      }
+    });
+  </script>
 </body>
 </html>
