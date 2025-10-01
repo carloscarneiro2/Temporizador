@@ -44,6 +44,12 @@
       background:#1e293b;
       color:#fff;
     }
+    .top-actions { display:flex; justify-content:flex-end; margin-top:10px; }
+    .export {
+      background:#0ea5e9; color:#fff; border:none;
+      padding:8px 12px; border-radius:6px; font-weight:700; cursor:pointer;
+    }
+    .export:hover { background:#22d3ee; color:#0f172a; }
     .botoes-etapas {
       display:grid;
       grid-template-columns: repeat(2, 1fr);
@@ -120,6 +126,10 @@
     <input type="text" id="re" placeholder="Ex: 123456">
     <label for="nome">Nome do Colaborador:</label>
     <input type="text" id="nome" placeholder="Nome será exibido aqui" readonly>
+
+    <div class="top-actions">
+      <button class="export" onclick="exportarCSV()">Extrair para Excel</button>
+    </div>
   </div>
 
   <div class="botoes-etapas">
@@ -203,6 +213,51 @@
         </ul>
         <button class="encerrar" onclick="encerrarEtapa('aplicar','reconhecido')">Encerrar Etapa</button>`;
       }
+    }
+
+    // --- NOVO: Exportar para Excel (CSV) da etapa atual visível ---
+    function exportarCSV() {
+      const re = document.getElementById('re').value || '';
+      const nome = document.getElementById('nome').value || '';
+
+      const etapaTituloEl = document.querySelector('#conteudo-etapa h3');
+      const etapaTitulo = etapaTituloEl ? etapaTituloEl.textContent.trim() : 'Etapa';
+
+      const linhas = [];
+      const itens = document.querySelectorAll('#conteudo-etapa ul li');
+
+      itens.forEach((li, idx) => {
+        const chk = li.querySelector('input[type="checkbox"]');
+        const feito = chk && chk.checked ? 'Sim' : 'Não';
+        const txtParts = [];
+        li.childNodes.forEach(n => {
+          if (n.nodeType === 3) { // texto direto
+            const t = n.textContent.trim();
+            if (t) txtParts.push(t);
+          }
+        });
+        let tarefa = txtParts.join(' ').replace(/\s+/g, ' ');
+        if (!tarefa) {
+          // fallback: usa innerText sem o texto do botão
+          tarefa = (li.innerText || '').replace('Inserir comentário','').trim();
+        }
+        const comentario = (li.querySelector('textarea.comentario')?.value || '').trim();
+        linhas.push([re, nome, etapaTitulo, idx+1, tarefa, feito, comentario]);
+      });
+
+      let csv = 'RE,Nome,Etapa,Ordem,Tarefa,Feito,Comentário\n';
+      linhas.forEach(row => {
+        const line = row.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',');
+        csv += line + '\n';
+      });
+
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      // usa parte do título da etapa no nome do arquivo
+      const etapaKey = etapaTitulo.toLowerCase().split(' - ').pop().replace(/\s+/g,'_');
+      a.download = `jornada_${etapaKey}_${(re||'semRE')}.csv`;
+      a.click();
     }
   </script>
 </body>
