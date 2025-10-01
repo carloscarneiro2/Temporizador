@@ -19,12 +19,13 @@
       width:100%;
       max-height:200px;
       object-fit:cover;
+      display:block;
     }
     h1 {
       margin:20px 0;
       font-size:24px;
-      color:#f9fafb;
-      text-shadow: 1px 1px 2px #6b7280;
+      color:#f9fafb;              /* branco */
+      text-shadow: 1px 1px 2px #6b7280; /* detalhes cinza */
     }
     .container {
       background:#0f172a;
@@ -32,7 +33,7 @@
       border-radius:8px;
       box-shadow:0 2px 8px rgba(0,0,0,0.5);
       width:90%;
-      max-width:400px;
+      max-width:420px;
       text-align:left;
     }
     label {
@@ -54,37 +55,40 @@
     .etapas {
       display:flex;
       gap:15px;
-      margin-top:20px;
+      margin:22px 0 32px;
       flex-wrap:wrap;
       justify-content:center;
     }
     .etapa {
-      padding:20px;
-      border-radius:8px;
+      padding:18px 16px;
+      border-radius:10px;
       font-weight:bold;
-      color:white;
-      min-width:120px;
+      color:#fff;
+      min-width:140px;
       text-align:center;
-      opacity:0.5;
+      opacity:0.55;
       cursor:not-allowed;
-      transition:0.3s;
+      transition:0.2s ease;
+      user-select:none;
     }
     .etapa.ativa {
       opacity:1;
       cursor:pointer;
-      border:2px solid white;
-      transform: scale(1.05);
+      border:2px solid #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
     }
-    .verde { background:#16a34a; }
-    .vermelho { background:#b91c1c; }
+    .verde   { background:#16a34a; }
+    .vermelho{ background:#b91c1c; }
     .amarelo { background:#ca8a04; }
-    .azul { background:#1d4ed8; }
-    .roxo { background:#7c3aed; }
+    .azul    { background:#1d4ed8; }
+    .roxo    { background:#7c3aed; }
   </style>
 </head>
 <body>
   <header>
-    <img src="FE12A0CE-5B6D-436D-8152-BF09119AC6A7.jpeg" alt="Vidro Cebrace">
+    <!-- Usa exatamente o nome de arquivo informado pelo usuário -->
+    <img src="d9eae419-6695-4097-a256-b6c9ebc981ce.jpeg" alt="Vidro Cebrace">
   </header>
 
   <h1>Jornada do Colaborador</h1>
@@ -106,7 +110,7 @@
   </div>
 
   <script>
-    // Simulação inicial para testes
+    // Simulação para testes (substituiremos por banco de dados futuramente)
     const mockData = {
       "123456": "Carlos Alberto",
       "654321": "Maria Souza"
@@ -114,24 +118,16 @@
 
     document.getElementById("re").addEventListener("input", function() {
       const re = this.value.trim();
-      const nomeField = document.getElementById("nome");
-      if(mockData[re]) {
-        nomeField.value = mockData[re];
-      } else {
-        nomeField.value = "";
-      }
+      document.getElementById("nome").value = mockData[re] || "";
     });
 
-    function proximaEtapa(elemento) {
-      // desativar etapa atual
-      elemento.classList.remove("ativa");
-      elemento.style.cursor = "not-allowed";
-
-      // ativar próxima etapa
-      let proximo = elemento.nextElementSibling;
-      if(proximo) {
-        proximo.classList.add("ativa");
-        proximo.style.cursor = "pointer";
+    function proximaEtapa(el) {
+      el.classList.remove("ativa");
+      el.style.cursor = "not-allowed";
+      const next = el.nextElementSibling;
+      if (next) {
+        next.classList.add("ativa");
+        next.style.cursor = "pointer";
       } else {
         alert("Todas as etapas concluídas 🎉");
       }
