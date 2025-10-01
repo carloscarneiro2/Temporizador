@@ -78,11 +78,11 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(0,0,0,.25);
     }
-    .verde   { background:#16a34a; }
-    .vermelho{ background:#b91c1c; }
-    .amarelo { background:#ca8a04; }
-    .azul    { background:#1d4ed8; }
-    .roxo    { background:#7c3aed; }
+    /* Cores no padrão solicitado */
+    .azul    { background:#1d4ed8; }  /* Aprender / Ensinar */
+    .verde   { background:#16a34a; }  /* Aplicar / Multiplicar */
+    .vermelho{ background:#b91c1c; }  /* Ser Reconhecido */
+    .amarelo { background:#ca8a04; }  /* Liderar */
   </style>
 </head>
 <body>
@@ -102,11 +102,12 @@
   </div>
 
   <div class="etapas">
-    <div class="etapa verde ativa" onclick="proximaEtapa(this)">Aplicar</div>
-    <div class="etapa vermelho">Ser Reconhecido</div>
-    <div class="etapa amarelo">Liderar</div>
-    <div class="etapa azul">Ensinar</div>
-    <div class="etapa roxo">Multiplicar</div>
+    <div class="etapa azul ativa"   onclick="proximaEtapa(this)">Aprender</div>
+    <div class="etapa verde"        >Aplicar</div>
+    <div class="etapa vermelho"     >Ser Reconhecido</div>
+    <div class="etapa amarelo"      >Liderar</div>
+    <div class="etapa azul"         >Ensinar</div>
+    <div class="etapa verde"        >Multiplicar</div>
   </div>
 
   <script>
@@ -122,16 +123,24 @@
     });
 
     function proximaEtapa(el) {
+      // desativa a etapa atual
       el.classList.remove("ativa");
       el.style.cursor = "not-allowed";
+      // ativa a próxima etapa, se houver
       const next = el.nextElementSibling;
       if (next) {
         next.classList.add("ativa");
         next.style.cursor = "pointer";
+        // delega o clique para continuar o fluxo
+        next.addEventListener("click", handleClickOnce, { once: true });
       } else {
         alert("Todas as etapas concluídas 🎉");
       }
     }
+
+    // Garante que somente a etapa ativa responda ao clique
+    function handleClickOnce(e){ proximaEtapa(e.currentTarget); }
+    document.querySelector(".etapa.ativa").addEventListener("click", handleClickOnce, { once: true });
   </script>
 </body>
 </html>
